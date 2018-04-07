@@ -1,25 +1,67 @@
+import sys
+sys.path.append("..")
+from Enumerations import *
+
 import serial
 import time
-import ConfigParser
+import configparser
 import math
 
-config = ConfigParser.RawConfigParser()
-config.read('config.cfg')
+config = configparser.RawConfigParser()
+config.read('../config.cfg')
+
+class Motor:
+	def __init__(self, port, type, home, max, min):
+		self.port = port
+		self.type = type
+		self.home = home
+		self.max = max
+		self.min = min
+
+class Limb:
+	def __init__(self, type, side):
+		self.type = type
+		self.side = side
+		self.parts = {}
+		if type == Limbs.Leg:
+			for legPart in LegParts:
+				port = config.getint('motors', side.value + legPart.value + "port")
+				home = config.getint('motors', side.value + legPart.value + "home")
+				min = config.getint('motors', side.value + legPart.value + "min")
+				max = config.getint('motors', side.value + legPart.value + "max")
+				self.parts[legPart] = Motor(port, Motors.HS5765, home, min, max)
+		else:
+			for armPart in ArmParts:
+				port = config.getint('motors', side.value + armPart.value + "port")
+				home = config.getint('motors', side.value + armPart.value + "home")
+				min = config.getint('motors', side.value + armPart.value + "min")
+				max = config.getint('motors', side.value + armPart.value + "max")
+				self.parts[armPart] = Motor(port, Motors.HS5765, home, min, max)
+
+
+class MotorStructure:
+	def __init__(self):
+		self.limbs = {}
+		for limb in Limbs:
+			newSide = {}
+			for side in Side:
+				newSide[side] = Limb(limb, side)
+			self.limbs[limb] = newSide
 
 class George:
 
-        def __init__(self):
-                self.port = serial.Serial("/dev/ttyUSB0", 115200, timeout=1)
-                self.hash = str(unichr(35))
+	def __init__(self):
+		self.port = serial.Serial("/dev/ttyUSB0", 115200, timeout=1)
+		self.hash = str(unichr(35))
 		self.limbs = {"Arm":["ShoulderUD", "ShoulderLR", "Elbow", "Wrist", "Gripper"]}
 
-        def moveRaw(self, limbs, positions, speeds):
+	def moveRaw(self, limbs, positions, speeds):
 		if speeds == None:
 			speeds = [1000 for limb in limbs]
 		sendString = ""
 		for counter in range(0 ,len(limbs)):
 			sendString += self.hash + str(limbs[counter]) + " P" + str(positions[counter]) + " S" + str(speeds[counter])
-	        self.port.write(sendString + " \r")
+		self.port.write(sendString + " \r")
 
 	def moveDegrees(self, limbs, positions, speeds=None):
 		pins = [config.getint('motors', limb) for limb in limbs]
@@ -70,13 +112,20 @@ class George:
 			counter += 1
 		self.moveRaw(pins, am, [speed])
 
-        def home(self):
+	def home(self):
 		for limb in self.limbs['Arm']:
-	        	self.moveRaw(config.get('motors', 'A_L_' + limb), config.get('motors', 'A_L_' + limb + '_H'),config.get('motors', 'A_StepperSpeed'))
+			self.moveRaw(config.get('motors', 'A_L_' + limb), config.get('motors', 'A_L_' + limb + '_H'),config.get('motors', 'A_StepperSpeed'))
 
-        def close(self):
-                self.port.close()
+	def close(self):
+		self.port.close()
 
+
+
+
+test = MotorStructure()
+print(test.limbs[Limbs.Arm][Side.Left].parts[ArmParts.Elbow])
+
+time.sleep(10000)
 
 test = George()
 
