@@ -20,7 +20,7 @@ for dirPath, dirNames, fileNames in os.walk("Objects"):
 print("\033[H\033[J")
 print("training...")
 
-classifier = create(dictionary, trainNew=True)
+classifier = create(dictionary, trainNew=False)
 myCamera = camera()	#Initialise the camera
 
 counter = 0
