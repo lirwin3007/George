@@ -10,8 +10,24 @@ import menuGenerator
 config = configparser.RawConfigParser()
 config.read('../config.cfg')
 
+Motors = ["Left  " + name[0] for name in ArmParts.__members__.items()]
+Motors += ["Right " + name[0] for name in ArmParts.__members__.items()]
+Motors += ["Left  " + name[0] for name in LegParts.__members__.items()]
+Motors += ["Right " + name[0] for name in LegParts.__members__.items()]
+
+serialPort = serial.Serial("/dev/ttyUSB0", 115200, timeout=1)
+
 def motorPorts():
-	pass
+	motorSelector = menuGenerator.menu("Which Motor?", ["None"] + Motors )
+	print("A motor will be homed then moved. Select which motor has been moved. Press Q or q to quit.")
+	for port in range(0,32):
+		sendString = "\#" + str(port) + " P" + str(1500) + " S" + str(5)
+		serialPort.write((sendString + " \r").encode())
+		time.sleep(1)
+		sendString = "\#" + str(port) + " P" + str(1700) + " S" + str(5)
+		serialPort.write((sendString + " \r").encode())
+		result = motorSelector.display()
+
 
 def motorHome():
 	print("Not Yet Implimented")
