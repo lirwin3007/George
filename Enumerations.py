@@ -29,3 +29,13 @@ class MovementTypes(Enum):
 	Absolute = 0
 	Angle = 1
 	Percentage = 2
+
+class ArmStructure(Enum):
+	Forearm = 'forearm'
+	Bicep = 'bicep'
+	Hand = 'hand'
+
+class LegStructure(Enum):
+	Thigh = 'thigh'
+	Shin = 'shin'
+	Foot = 'foot'

@@ -11,22 +11,30 @@ config = configparser.RawConfigParser()
 config.read('../config.cfg')
 
 class MotorMovement:
-	def __init__(self, motors, positions, speeds = [],  positionType = MovementTypes.Angle):
+	def __init__(self, motors, positions, speed = -1, speeds = [],  positionType = MovementTypes.Angle, speedType = MovementTypes.Percentage):
 		#validation
 		if len(motors) != len(positions) or len(motors) == 0:
 			raise Exception("Length of motors != length of positions")	
 
 		#Self variable setting
 		self.speeds = []
-		if speeds == []:
-			for motor in motors:
-				self.speeds.append(config.getfloat('motors', motor.type.value + "speed"))
-		elif len(speeds) != len(motors):
+		if speeds == [] and speed == -1:
+			self.speeds = [config.getfloat('motors', motor.type.value + "speed") for motor in motors]
+		elif len(speeds) != len(motors) and speed == -1:
 			print("WARNING: Number of speeds does not match number of motors. Setting all to default value")
-			for motor in motors:
-				self.speeds.append(config.getfloat('motors', motor.type.value + "speed"))
-		else:
+			self.speeds = [config.getfloat('motors', motor.type.value + "speed") for motor in motors]
+		elif speeds != []:
 			self.speeds = speeds
+		elif speed != -1:
+			if speedType == MovementTypes.Percentage:
+				for motor in motors:
+					self.speeds.append(config.getfloat('motors', motor.type.value + "speed") * percentage)
+			elif speedType == MovementTypes.Absolute:
+				self.speeds = [speed for motor in motors]
+			else:
+				raise Exception("Invalid speed type: " + speedType)
+		else:
+			print("WARNING: Motor speeds have not been set")
 
 		self.motors = motors
 		if positionType == MovementTypes.Absolute:
@@ -101,6 +109,36 @@ class MotorStructure:
 			for side in Side:
 				newSide[side] = Limb(limb, side)
 			self.limbs[limb] = newSide
+
+	def moveArms(self, w=None,h=None, rotation = None, speed = 1):
+		forearmLength = config.getfloat('construction', ArmStructure.Forearm.value + "length")
+		bicepLength = config.getfloat('construction', ArmStructure.Bicep.value + "length")
+
+		term1 = (w ** 2 + h ** 2 + forearmLength ** 2 - bicepLength ** 2) / (2 * forearmLength * (h ** 2 + w ** 2) ** 0.5)
+		term2 = (h * 1.0) / w
+		theta2 = (math.pi - math.asin(term1)) - math.atan(term2)
+
+		term1 = (h - forearmLength * math.cos(theta2)) / bicepLength
+		theta1 = math.acos(term1)
+
+		theta1 = math.degrees(theta1)
+		theta2 = math.degrees(theta2)
+
+		if w < forearmLength:
+			thetaBicep = -theta1
+			thetaForearm = theta2 + theta1
+		else:
+			thetaBicep = theta1
+			thetaForearm = theta2 - theta1
+
+		motors = [self.limbs[Limbs.Arm][Side.Left].parts[ArmParts.Elbow]]
+		motors.append([self.limbs[Limbs.Arm][Side.Left].parts[ArmParts.ShoulderFrontBack]])
+		motors.append([self.limbs[Limbs.Arm][Side.Left].parts[ArmParts.ShoulderLeftRight]])
+
+		armMovement = MotorMovement(motors, [thetaForearm, thetaBicep, rotation], speed=speed)
+		armMovement.execute()
+
+
 
 class George:
 
@@ -177,7 +215,7 @@ class George:
 
 
 test = MotorStructure()
-print(test.limbs[Limbs.Arm][Side.Left].parts[ArmParts.Elbow])
+test.moveArms(22,10,0)
 
 time.sleep(10000)
 
