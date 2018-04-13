@@ -25,3 +25,7 @@ class LegParts(Enum):
 	Knee = 'K'
 	Foot = 'F'
 	
+class MovementTypes(Enum):
+	Absolute = 0
+	Angle = 1
+	Percentage = 2

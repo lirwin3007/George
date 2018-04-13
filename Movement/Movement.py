@@ -10,6 +10,43 @@ import math
 config = configparser.RawConfigParser()
 config.read('../config.cfg')
 
+class MotorMovement:
+	def __init__(self, motors, positions, speeds = [],  positionType = MovementTypes.Angle):
+		#validation
+		if len(motors) != len(positions) or len(motors) == 0:
+			raise Exception("Length of motors != length of positions")	
+
+		#Self variable setting
+		self.speeds = []
+		if speeds == []:
+			for motor in motors:
+				self.speeds.append(config.getfloat('motors', motor.type.value + "speed"))
+		elif len(speeds) != len(motors):
+			print("WARNING: Number of speeds does not match number of motors. Setting all to default value")
+			for motor in motors:
+				self.speeds.append(config.getfloat('motors', motor.type.value + "speed"))
+		else:
+			self.speeds = speeds
+
+		self.motors = motors
+		if positionType == MovementTypes.Absolute:
+			self.positions = positions
+		elif positionType == MovementTypes.Angle:
+			self.positions = []
+			for counter in range(0, len(motors)):
+				self.positions.append(motors[counter].angleToAbsolute(positions[counter]))
+		elif positionType == MovementTypes.Percentage:
+			self.positions = []
+			for counter in range(0, len(motors)):
+				self.positions.append(motors[counter].percentageToAbsolute(positions[counter]))
+
+	def execute(self, port):
+		sendString = ""
+		for counter in range(0, len(self.motors)):
+			sendString += str(unichr(35)) + str(self.motors[counter]) + " P" + str(self.positions[counter]) + " S" + str(self.speeds[counter])
+		port.write(sendString + " \r")
+
+
 class Motor:
 	def __init__(self, port, type, home, max, min):
 		self.port = port
@@ -17,6 +54,23 @@ class Motor:
 		self.home = home
 		self.max = max
 		self.min = min
+
+	def angleToAbsolute(self, degree):
+		stepPerDegree = config.getfloat('motors', self.type.value + "stepperdegree")
+		absolute = self.home + degree * stepPerDegree
+		if absolute > self.max or absolute < self.min:
+			raise ValueError("Value: " + str(absolute) + " is not valid for this motor. (Max: " + str(self.max) + " Min: " + str(self.min) + ")")
+		return absolute
+
+	def percentageToAbsolute(self, percentage):
+		if percentage > 1 or percentage < -1:
+			raise ValueError("Value: " + str(percentage) + " is not a valid percentage for this motor")
+		absolute = self.home
+		if percentage > 0:
+			absolute += (self.max - self.home) * percentage
+		else:
+			absolute += (self.home - self.min) * percentage
+		return absolute
 
 class Limb:
 	def __init__(self, type, side):
