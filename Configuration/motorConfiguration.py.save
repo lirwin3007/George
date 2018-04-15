@@ -17,30 +17,23 @@ Motors += ["Right " + name[0] for name in LegParts.__members__.items()]
 
 serialPort = serial.Serial("/dev/ttyUSB0", 115200, timeout=1)
 
+print(chr(35))
+
 def motorPorts():
 	motorSelector = menuGenerator.menu("Which Motor?", ["None"] + Motors )
 	print("A motor will be homed then moved. Select which motor has been moved. Press Q or q to quit.")
 	for port in range(0,32):
 		sendString = chr(35) + str(port) + " P" + str(1500) + " S" + str(5)
 		serialPort.write((sendString + " \r").encode())
+		print((sendString + " \r").encode())
 		time.sleep(1)
-		sendString = chr(35) + str(port) + " P" + str(1700) + " S" + str(5)
+		sendString = "\#" + str(port) + " P" + str(1700) + " S" + str(5)
 		serialPort.write((sendString + " \r").encode())
 		result = motorSelector.display()
 		if result != "None":
-			side = result[:5]
-			if side == "Left ":
-				side = Side.Left
-			else:
-				side = Side.Right
 			result = result[6:]
-			if result in [name[0] for name in ArmParts.__members__.items()]:
-				motor = ArmParts[result]
-			else:
-				motor = LegParts[result]
-			config['motors'][side.value + motor.value + "port"] = str(port)
-			with open('../config.cfg', 'w') as configfile:
-				config.write(configfile)
+			if result in 
+			config['motors'][result + "port"] = str(port)
 		
 
 
