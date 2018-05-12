@@ -6,8 +6,6 @@
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-#import sphinx_bootstrap_theme
-
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -84,7 +82,7 @@ html_theme = 'bootstrap'
 html_theme_path = [os.path.abspath("sphinx_bootstrap_theme")]
 print(html_theme_path)
 html_logo = "Icon 89x24.png"
-html_favicon = html_logo
+html_favicon = "Icon 32x32.png"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
