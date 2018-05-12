@@ -39,3 +39,7 @@ class LegStructure(Enum):
 	Thigh = 'thigh'
 	Shin = 'shin'
 	Foot = 'foot'
+
+class Positions(Enum):
+	Sitting = 'sitting'
+	Standing = 'standing'

@@ -1,11 +1,13 @@
+import os
+
 class menu:
 
 	def __init__(self, description, options):
 		self.options = options
 		self.description = description
 
-	def display(self):
-		print()
+	def display(self, quit = True):
+		os.system("clear")
 		print(self.description)
 		print()
 		print("~~~ Menu ~~~")
@@ -14,7 +16,10 @@ class menu:
 			print(str(counter) + "\t" + option)
 			counter += 1
 		print()
-		print("Q\tQuit")
+		if quit:
+			print("Q\tQuit")
+		else:
+			print("B\tBack")
 
 		selectionNotValid = True
 
@@ -24,6 +29,8 @@ class menu:
 				print("Please input a number or Q to quit")
 			elif selection == "Q" or selection == "q":
 				return "Quit"
+			elif selection == "B" or selection == "b":
+				return "Back"
 			elif selection.isdigit():
 				if int(selection) > len(self.options):
 					print("Please input a valid number")

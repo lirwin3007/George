@@ -6,6 +6,9 @@ import serial
 import time
 import configparser
 import math
+import Adafruit_LSM303
+#import EmergencyCutoff as em
+import os
 
 config = configparser.RawConfigParser()
 config.read('../config.cfg')
@@ -43,7 +46,6 @@ class MotorMovement:
 			self.positions = []
 			for counter in range(0, len(motors)):
 				self.positions.append(motors[counter].angleToAbsolute(positions[counter]))
-				print(motors[counter])
 		elif positionType == MovementTypes.Percentage:
 			self.positions = []
 			for counter in range(0, len(motors)):
@@ -52,8 +54,10 @@ class MotorMovement:
 	def execute(self, port):
 		sendString = ""
 		for counter in range(0, len(self.motors)):
+			self.motors[counter].value = self.positions[counter]
 			sendString += chr(35) + str(self.motors[counter].port) + " P" + str(self.positions[counter]) + " S" + str(self.speeds[counter])
 		sendString += " \r"
+		print(sendString)
 		port.write(sendString.encode())
 
 
@@ -64,6 +68,7 @@ class Motor:
 		self.home = home
 		self.max = max
 		self.min = min
+		self.value = 0
 
 	def angleToAbsolute(self, degree):
 		stepPerDegree = config.getfloat('motors', self.type.value + "stepperdegree")
@@ -105,13 +110,44 @@ class Limb:
 
 class MotorStructure:
 	def __init__(self):
-		self.port = serial.Serial("/dev/ttyUSB0", 115200, timeout=1)
+		self.port = serial.Serial("/dev/ttyUSB1", 115200, timeout=1)
+		self.accelerometer = Adafruit_LSM303.LSM303()
+		#Ballance Constants
+		self.KP = 0.01
+		self.KD = 0
+		self.KI = 0
+		#accel, mag = lsm303.read()
 		self.limbs = {}
 		for limb in Limbs:
 			newSide = {}
 			for side in Side:
 				newSide[side] = Limb(limb, side)
 			self.limbs[limb] = newSide
+
+	def initMotors(self, limb = -1, position = Positions.Standing):
+		#print(em.measure())
+		#em.on()
+		#print("done")
+		#print(em.measure())
+		time.sleep(1)
+		if limb == Limbs.Arm or limb == -1:
+			motors = []
+			positions = []
+			for side in self.limbs[Limbs.Arm]:
+				for part in self.limbs[Limbs.Arm][side].parts:
+					motors.append(self.limbs[Limbs.Arm][side].parts[part])
+					positions.append(0)
+			movement = MotorMovement(motors, positions)
+			movement.execute(self.port)
+		if limb == Limbs.Leg or limb == -1:
+			motors = []
+			positions = []
+			for side in self.limbs[Limbs.Leg]:
+				for part in self.limbs[Limbs.Leg][side].parts:
+					motors.append(self.limbs[Limbs.Leg][side].parts[part])
+					positions.append(0)
+			movement = MotorMovement(motors, positions)
+			movement.execute(self.port)
 
 	def moveArms(self, w=None,h=None, rotation = None, speed = 1):
 		forearmLength = config.getfloat('construction', ArmStructure.Forearm.value + "length")
@@ -147,11 +183,35 @@ class MotorStructure:
 		armMovement = MotorMovement(motors, [thetaForearm, thetaBicep, rotation], speed=speed)
 		armMovement.execute(self.port)
 
+	def Balance(self):
+		error = 0 - self.accelerometer.read()[0][2]
+
+		LeftMotor = self.limbs[Limbs.Leg][Side.Left].parts[LegParts.HipFrontBack]
+		RightMotor = self.limbs[Limbs.Leg][Side.Right].parts[LegParts.HipFrontBack]
+
+		LeftPosition = LeftMotor.value + error * self.KP
+		RightPosition = RightMotor.value + error * self.KP
+
+		LeftPosition = max(min(LeftPosition, LeftMotor.max), LeftMotor.min)
+		RightPosition = max(min(RightPosition, RightMotor.max), RightMotor.min)
+
+		print((LeftPosition, RightPosition))
+		
+		motors = [self.limbs[Limbs.Leg][Side.Left].parts[LegParts.HipFrontBack], self.limbs[Limbs.Leg][Side.Right].parts[LegParts.HipFrontBack]]
+		positions = [LeftPosition, RightPosition]
+		movement = MotorMovement(motors, positions, positionType = MovementTypes.Absolute)
+		movement.execute(self.port)
+
 
 
 test = MotorStructure()
-while True:
-	test.moveArms(22,4,0,2)
-	time.sleep(1)
-	test.moveArms(13,4,0,2)
-	time.sleep(3)
+test.initMotors()
+#while True:
+#	test.Balance()
+#	print(em.measure())
+
+#while False:
+#	test.moveArms(22,4,0,2)
+#	time.sleep(1)
+#	test.moveArms(13,4,0,2)
+#	time.sleep(3)
