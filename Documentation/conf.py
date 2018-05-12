@@ -6,7 +6,7 @@
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-import sphinx_bootstrap_theme
+#import sphinx_bootstrap_theme
 
 # -- Path setup --------------------------------------------------------------
 
@@ -81,7 +81,8 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 html_theme = 'bootstrap'
-html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
+html_theme_path = [os.path.abspath("sphinx_bootstrap_theme")]
+print(html_theme_path)
 html_logo = "Icon 89x24.png"
 html_favicon = html_logo
 
