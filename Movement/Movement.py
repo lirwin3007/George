@@ -14,6 +14,9 @@ config = configparser.RawConfigParser()
 config.read('../config.cfg')
 
 class MotorMovement:
+	"""Represents a collection of motors moving"""
+
+	#:Initialise the class with the specified motors and positions
 	def __init__(self, motors, positions, speed = -1, speeds = [],  positionType = MovementTypes.Angle, speedType = MovementTypes.Percentage):
 		#validation
 		if len(motors) != len(positions) or len(motors) == 0:
@@ -203,15 +206,15 @@ class MotorStructure:
 		movement.execute(self.port)
 
 
-
-test = MotorStructure()
-test.initMotors()
-#while True:
-#	test.Balance()
-#	print(em.measure())
-
-#while False:
-#	test.moveArms(22,4,0,2)
-#	time.sleep(1)
-#	test.moveArms(13,4,0,2)
-#	time.sleep(3)
+if __name__ == '__main__':
+	test = MotorStructure()
+	test.initMotors()
+	#while True:
+	#	test.Balance()
+	#	print(em.measure())
+	
+	#while False:
+	#	test.moveArms(22,4,0,2)
+	#	time.sleep(1)
+	#	test.moveArms(13,4,0,2)
+	#	time.sleep(3)
