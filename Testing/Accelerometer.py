@@ -3,7 +3,7 @@ import os, time
 
 lsm303 = Adafruit_LSM303.LSM303()
 
-while True:
+while __name__ == "__main__":
     # Read the X, Y, Z axis acceleration values and print them.
     accel, mag = lsm303.read()
     # Grab the X, Y, Z components from the reading and print them out.

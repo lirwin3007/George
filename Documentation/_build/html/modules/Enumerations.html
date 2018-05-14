@@ -15,7 +15,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="shortcut icon" href="../_static/Icon 89x24.png"/>
+    <link rel="shortcut icon" href="../_static/Icon 32x32.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="MotorConfiguration" href="Configuration/motorConfiguration.html" />
@@ -118,79 +118,197 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="module-Movement">
-<span id="enumerations"></span><h1>Enumerations<a class="headerlink" href="#module-Movement" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-Enumerations">
+<span id="enumerations"></span><h1>Enumerations<a class="headerlink" href="#module-Enumerations" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="Movement.Limb">
-<em class="property">class </em><code class="descclassname">Movement.</code><code class="descname">Limb</code><span class="sig-paren">(</span><em>type</em>, <em>side</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#Limb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.Limb" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="Movement.Limb.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>type</em>, <em>side</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#Limb.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.Limb.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dt id="Enumerations.ArmParts">
+<em class="property">class </em><code class="descclassname">Enumerations.</code><code class="descname">ArmParts</code><a class="reference internal" href="../_modules/Enumerations.html#ArmParts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Enumerations.ArmParts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Joints of the arm</p>
+<dl class="attribute">
+<dt id="Enumerations.ArmParts.Elbow">
+<code class="descname">Elbow</code><em class="property"> = 'E'</em><a class="headerlink" href="#Enumerations.ArmParts.Elbow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Elbow joint</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="Enumerations.ArmParts.Gripper">
+<code class="descname">Gripper</code><em class="property"> = 'G'</em><a class="headerlink" href="#Enumerations.ArmParts.Gripper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gripper motor</p>
 </dd></dl>
 
-<dl class="class">
-<dt id="Movement.Motor">
-<em class="property">class </em><code class="descclassname">Movement.</code><code class="descname">Motor</code><span class="sig-paren">(</span><em>port</em>, <em>type</em>, <em>home</em>, <em>max</em>, <em>min</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#Motor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.Motor" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="Movement.Motor.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>port</em>, <em>type</em>, <em>home</em>, <em>max</em>, <em>min</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#Motor.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.Motor.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dl class="attribute">
+<dt id="Enumerations.ArmParts.ShoulderFrontBack">
+<code class="descname">ShoulderFrontBack</code><em class="property"> = 'SFB'</em><a class="headerlink" href="#Enumerations.ArmParts.ShoulderFrontBack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arm motor moving the shoulder fornt and back</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="Movement.Motor.angleToAbsolute">
-<code class="descname">angleToAbsolute</code><span class="sig-paren">(</span><em>degree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#Motor.angleToAbsolute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.Motor.angleToAbsolute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="Movement.Motor.percentageToAbsolute">
-<code class="descname">percentageToAbsolute</code><span class="sig-paren">(</span><em>percentage</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#Motor.percentageToAbsolute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.Motor.percentageToAbsolute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dl class="attribute">
+<dt id="Enumerations.ArmParts.ShoulderLeftRight">
+<code class="descname">ShoulderLeftRight</code><em class="property"> = 'SLR'</em><a class="headerlink" href="#Enumerations.ArmParts.ShoulderLeftRight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Motor moving the shoulder left and right</p>
 </dd></dl>
 
-<dl class="class">
-<dt id="Movement.MotorMovement">
-<em class="property">class </em><code class="descclassname">Movement.</code><code class="descname">MotorMovement</code><span class="sig-paren">(</span><em>motors</em>, <em>positions</em>, <em>speed=-1</em>, <em>speeds=[]</em>, <em>positionType=&lt;MovementTypes.Angle: 1&gt;</em>, <em>speedType=&lt;MovementTypes.Percentage: 2&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#MotorMovement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.MotorMovement" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents a collection of motors moving</p>
-<dl class="method">
-<dt id="Movement.MotorMovement.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>motors</em>, <em>positions</em>, <em>speed=-1</em>, <em>speeds=[]</em>, <em>positionType=&lt;MovementTypes.Angle: 1&gt;</em>, <em>speedType=&lt;MovementTypes.Percentage: 2&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#MotorMovement.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.MotorMovement.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="Movement.MotorMovement.execute">
-<code class="descname">execute</code><span class="sig-paren">(</span><em>port</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#MotorMovement.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.MotorMovement.execute" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="Enumerations.ArmParts.Wrist">
+<code class="descname">Wrist</code><em class="property"> = 'W'</em><a class="headerlink" href="#Enumerations.ArmParts.Wrist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="Movement.MotorStructure">
-<em class="property">class </em><code class="descclassname">Movement.</code><code class="descname">MotorStructure</code><a class="reference internal" href="../_modules/Movement.html#MotorStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.MotorStructure" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="Movement.MotorStructure.Balance">
-<code class="descname">Balance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#MotorStructure.Balance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.MotorStructure.Balance" title="Permalink to this definition">¶</a></dt>
+<dt id="Enumerations.ArmStructure">
+<em class="property">class </em><code class="descclassname">Enumerations.</code><code class="descname">ArmStructure</code><a class="reference internal" href="../_modules/Enumerations.html#ArmStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Enumerations.ArmStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parts of the structure of the arm</p>
+<dl class="attribute">
+<dt id="Enumerations.ArmStructure.Bicep">
+<code class="descname">Bicep</code><em class="property"> = 'bicep'</em><a class="headerlink" href="#Enumerations.ArmStructure.Bicep" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="Movement.MotorStructure.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#MotorStructure.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.MotorStructure.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dl class="attribute">
+<dt id="Enumerations.ArmStructure.Forearm">
+<code class="descname">Forearm</code><em class="property"> = 'forearm'</em><a class="headerlink" href="#Enumerations.ArmStructure.Forearm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.ArmStructure.Hand">
+<code class="descname">Hand</code><em class="property"> = 'hand'</em><a class="headerlink" href="#Enumerations.ArmStructure.Hand" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
-<dl class="method">
-<dt id="Movement.MotorStructure.initMotors">
-<code class="descname">initMotors</code><span class="sig-paren">(</span><em>limb=-1</em>, <em>position=&lt;Positions.Standing: 'standing'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#MotorStructure.initMotors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.MotorStructure.initMotors" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="Enumerations.LegParts">
+<em class="property">class </em><code class="descclassname">Enumerations.</code><code class="descname">LegParts</code><a class="reference internal" href="../_modules/Enumerations.html#LegParts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Enumerations.LegParts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Joints of the legs</p>
+<dl class="attribute">
+<dt id="Enumerations.LegParts.Foot">
+<code class="descname">Foot</code><em class="property"> = 'F'</em><a class="headerlink" href="#Enumerations.LegParts.Foot" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="Movement.MotorStructure.moveArms">
-<code class="descname">moveArms</code><span class="sig-paren">(</span><em>w=None</em>, <em>h=None</em>, <em>rotation=None</em>, <em>speed=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Movement.html#MotorStructure.moveArms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Movement.MotorStructure.moveArms" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="Enumerations.LegParts.HipFrontBack">
+<code class="descname">HipFrontBack</code><em class="property"> = 'HFB'</em><a class="headerlink" href="#Enumerations.LegParts.HipFrontBack" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.LegParts.HipLeftRight">
+<code class="descname">HipLeftRight</code><em class="property"> = 'HLR'</em><a class="headerlink" href="#Enumerations.LegParts.HipLeftRight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.LegParts.Knee">
+<code class="descname">Knee</code><em class="property"> = 'K'</em><a class="headerlink" href="#Enumerations.LegParts.Knee" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Enumerations.LegStructure">
+<em class="property">class </em><code class="descclassname">Enumerations.</code><code class="descname">LegStructure</code><a class="reference internal" href="../_modules/Enumerations.html#LegStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Enumerations.LegStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parts of the structure of the les</p>
+<dl class="attribute">
+<dt id="Enumerations.LegStructure.Foot">
+<code class="descname">Foot</code><em class="property"> = 'foot'</em><a class="headerlink" href="#Enumerations.LegStructure.Foot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.LegStructure.Shin">
+<code class="descname">Shin</code><em class="property"> = 'shin'</em><a class="headerlink" href="#Enumerations.LegStructure.Shin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.LegStructure.Thigh">
+<code class="descname">Thigh</code><em class="property"> = 'thigh'</em><a class="headerlink" href="#Enumerations.LegStructure.Thigh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Enumerations.Limbs">
+<em class="property">class </em><code class="descclassname">Enumerations.</code><code class="descname">Limbs</code><a class="reference internal" href="../_modules/Enumerations.html#Limbs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Enumerations.Limbs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limb types</p>
+<dl class="attribute">
+<dt id="Enumerations.Limbs.Arm">
+<code class="descname">Arm</code><em class="property"> = 'A'</em><a class="headerlink" href="#Enumerations.Limbs.Arm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.Limbs.Leg">
+<code class="descname">Leg</code><em class="property"> = 'L'</em><a class="headerlink" href="#Enumerations.Limbs.Leg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Enumerations.Motors">
+<em class="property">class </em><code class="descclassname">Enumerations.</code><code class="descname">Motors</code><a class="reference internal" href="../_modules/Enumerations.html#Motors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Enumerations.Motors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Motor types, defined by serial number</p>
+<dl class="attribute">
+<dt id="Enumerations.Motors.HS422">
+<code class="descname">HS422</code><em class="property"> = 'HS422'</em><a class="headerlink" href="#Enumerations.Motors.HS422" title="Permalink to this definition">¶</a></dt>
+<dd><p>Smaller servo motor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.Motors.HS5765">
+<code class="descname">HS5765</code><em class="property"> = 'HS5765'</em><a class="headerlink" href="#Enumerations.Motors.HS5765" title="Permalink to this definition">¶</a></dt>
+<dd><p>Larger servo motor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Enumerations.MovementTypes">
+<em class="property">class </em><code class="descclassname">Enumerations.</code><code class="descname">MovementTypes</code><a class="reference internal" href="../_modules/Enumerations.html#MovementTypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Enumerations.MovementTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Types of position</p>
+<dl class="attribute">
+<dt id="Enumerations.MovementTypes.Absolute">
+<code class="descname">Absolute</code><em class="property"> = 0</em><a class="headerlink" href="#Enumerations.MovementTypes.Absolute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lowest level of control. Provided number directly controls the position of the motor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.MovementTypes.Angle">
+<code class="descname">Angle</code><em class="property"> = 1</em><a class="headerlink" href="#Enumerations.MovementTypes.Angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provided number represents an angle beween 0 and 360 degrees that the motor will be moved to</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.MovementTypes.Percentage">
+<code class="descname">Percentage</code><em class="property"> = 2</em><a class="headerlink" href="#Enumerations.MovementTypes.Percentage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number will be be a decimal between 0 and 1 that represents how far the motor must be moved between the minimum and maximum position</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Enumerations.Positions">
+<em class="property">class </em><code class="descclassname">Enumerations.</code><code class="descname">Positions</code><a class="reference internal" href="../_modules/Enumerations.html#Positions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Enumerations.Positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Poses that can be used</p>
+<dl class="attribute">
+<dt id="Enumerations.Positions.Sitting">
+<code class="descname">Sitting</code><em class="property"> = 'sitting'</em><a class="headerlink" href="#Enumerations.Positions.Sitting" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.Positions.Standing">
+<code class="descname">Standing</code><em class="property"> = 'standing'</em><a class="headerlink" href="#Enumerations.Positions.Standing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Enumerations.Side">
+<em class="property">class </em><code class="descclassname">Enumerations.</code><code class="descname">Side</code><a class="reference internal" href="../_modules/Enumerations.html#Side"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Enumerations.Side" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sides of the body</p>
+<dl class="attribute">
+<dt id="Enumerations.Side.Left">
+<code class="descname">Left</code><em class="property"> = 'L'</em><a class="headerlink" href="#Enumerations.Side.Left" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Enumerations.Side.Right">
+<code class="descname">Right</code><em class="property"> = 'R'</em><a class="headerlink" href="#Enumerations.Side.Right" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

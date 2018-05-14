@@ -18,7 +18,7 @@ def isInt(s):
     except ValueError:
         return False
 
-while 1:
+while __name__ == "__main__":
 	ser.write("measure".encode())
 	x = str(ser.readline())
 	x = x[2:-5]

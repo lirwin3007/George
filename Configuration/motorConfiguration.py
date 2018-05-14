@@ -20,7 +20,7 @@ Motors += ["Right " + name[0] for name in ArmParts.__members__.items()]
 Motors += ["Left  " + name[0] for name in LegParts.__members__.items()]
 Motors += ["Right " + name[0] for name in LegParts.__members__.items()]
 
-serialPort = serial.Serial("/dev/ttyUSB0", 115200, timeout=1)
+serialPort = serial.Serial("/dev/ttyUSB1", 115200, timeout=1)
 
 def motorPorts():
 	motorSelector = menuGenerator.menu("Which Motor?", ["None"] + Motors)
@@ -71,6 +71,7 @@ def motorHome():
 		for motor in motorPorts:
 			port = motor[0]
 			print("Adjust value until motor is homed. Pres 'aaa' to set value.")
+			print(motor[1])
 			orig_settings = termios.tcgetattr(sys.stdin)
 
 			tty.setraw(sys.stdin)
@@ -93,6 +94,7 @@ def motorHome():
 						print("Increment now: " + str(increment))
 				if counter != previous:
 					sendString = chr(35) + str(port) + " P" + str(counter) + " S" + str(500)
+					print(counter)
 					serialPort.write((sendString + " \r").encode())
 				previous = counter
 

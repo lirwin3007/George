@@ -213,8 +213,12 @@ if __name__ == '__main__':
 	#	test.Balance()
 	#	print(em.measure())
 	
-	#while False:
-	#	test.moveArms(22,4,0,2)
-	#	time.sleep(1)
-	#	test.moveArms(13,4,0,2)
-	#	time.sleep(3)
+	while True:
+		test.initMotors()
+		time.sleep(3)
+		test.moveArms(13,4,0,4)
+		time.sleep(1)
+		test.moveArms(22,4,0,2.5)
+		time.sleep(1)
+		test.moveArms(13,4,0,2.5)
+		time.sleep(0.5)
