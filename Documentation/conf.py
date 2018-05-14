@@ -82,7 +82,6 @@ pygments_style = 'sphinx'
 #
 html_theme = 'bootstrap'
 html_theme_path = [os.path.abspath("sphinx_bootstrap_theme")]
-print(html_theme_path)
 html_logo = "Icon 89x24.png"
 html_favicon = "Icon 32x32.png"
 

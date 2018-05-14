@@ -5,8 +5,4 @@ Modules
    :maxdepth: 2
 
    Enumerations
-   Movement/EmergencyCutoff
-   Movement/Movement
-   Testing/Accelerometer
-   Testing/CurrentTest
-   Testing/MotorTest
+   Movement/modules

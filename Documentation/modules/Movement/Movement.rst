@@ -1,7 +1,18 @@
-Movement
-========
+Movement package
+================
+
+Submodules
+----------
+
+.. toctree::
+
+   Movement.EmergencyCutoff
+   Movement.Movement
+
+Module contents
+---------------
 
 .. automodule:: Movement
-   :members:
-   :undoc-members:
-   :special-members: __init__
+    :members:
+    :undoc-members:
+    :show-inheritance:
