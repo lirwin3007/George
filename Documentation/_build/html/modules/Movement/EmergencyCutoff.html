@@ -118,8 +118,32 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="emergencycutoff">
-<h1>EmergencyCutoff<a class="headerlink" href="#emergencycutoff" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-EmergencyCutoff">
+<span id="emergencycutoff"></span><h1>EmergencyCutoff<a class="headerlink" href="#module-EmergencyCutoff" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="EmergencyCutoff.measure">
+<code class="descclassname">EmergencyCutoff.</code><code class="descname">measure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/EmergencyCutoff.html#measure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EmergencyCutoff.measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measures the current reading of the battery. Returns a floating point number. Returns -1 if reading has failed</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="EmergencyCutoff.off">
+<code class="descclassname">EmergencyCutoff.</code><code class="descname">off</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/EmergencyCutoff.html#off"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EmergencyCutoff.off" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns the battery power off</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="EmergencyCutoff.on">
+<code class="descclassname">EmergencyCutoff.</code><code class="descname">on</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/EmergencyCutoff.html#on"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EmergencyCutoff.on" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns the battery power on. Will only turn on if safety relay has not previously been tripped</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="EmergencyCutoff.set">
+<code class="descclassname">EmergencyCutoff.</code><code class="descname">set</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/EmergencyCutoff.html#set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EmergencyCutoff.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the trigger voltage of the safety cut off to the supplied value</p>
+</dd></dl>
+
 </div>
 
 

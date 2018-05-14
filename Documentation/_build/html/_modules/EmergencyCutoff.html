@@ -123,25 +123,28 @@
         <span class="k">return</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="measure"><a class="viewcode-back" href="../modules/Movement/EmergencyCutoff.html#EmergencyCutoff.measure">[docs]</a><span class="k">def</span> <span class="nf">measure</span><span class="p">():</span>
-        <span class="sd">&quot;&quot;&quot;test&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Measures the current reading of the battery. Returns a floating point number. Returns -1 if reading has failed&quot;&quot;&quot;</span>
         <span class="n">ser</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;measure&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
         <span class="n">x</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ser</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">__isInt</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                 <span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="k">return</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+        <span class="k">return</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="on"><a class="viewcode-back" href="../modules/Movement/EmergencyCutoff.html#EmergencyCutoff.on">[docs]</a><span class="k">def</span> <span class="nf">on</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Turns the battery power on. Will only turn on if safety relay has not previously been tripped&quot;&quot;&quot;</span>
         <span class="n">ser</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;on&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;on&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="off"><a class="viewcode-back" href="../modules/Movement/EmergencyCutoff.html#EmergencyCutoff.off">[docs]</a><span class="k">def</span> <span class="nf">off</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Turns the battery power off&quot;&quot;&quot;</span>
         <span class="n">ser</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="set"><a class="viewcode-back" href="../modules/Movement/EmergencyCutoff.html#EmergencyCutoff.set">[docs]</a><span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-	<span class="n">ser</span><span class="o">.</span><span class="n">write</span><span class="p">((</span><span class="s2">&quot;set&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span></div>
+        <span class="sd">&quot;&quot;&quot;Sets the trigger voltage of the safety cut off to the supplied value&quot;&quot;&quot;</span>
+        <span class="n">ser</span><span class="o">.</span><span class="n">write</span><span class="p">((</span><span class="s2">&quot;set&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span></div>
 </pre></div>
 
     </div>

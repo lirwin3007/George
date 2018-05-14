@@ -40,4 +40,4 @@ def off():
 
 def set(value):
         """Sets the trigger voltage of the safety cut off to the supplied value"""
-	ser.write(("set" + str(value)).encode())
+        ser.write(("set" + str(value)).encode())
