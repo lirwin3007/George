@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Movement &#8212; George 3.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="../_static/Icon 32x32.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/Icon 89x24.png"></span>
+          George</a>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Title</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/index.html">Modules</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for Movement</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">Enumerations</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">serial</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">configparser</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">Adafruit_LSM303</span>
+<span class="c1">#import EmergencyCutoff as em</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">RawConfigParser</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;../config.cfg&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MotorMovement"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.MotorMovement">[docs]</a><span class="k">class</span> <span class="nc">MotorMovement</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;Represents a collection of motors moving&quot;&quot;&quot;</span>
+
+	<span class="c1">#:Initialise the class with the specified motors and positions</span>
+<div class="viewcode-block" id="MotorMovement.__init__"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.MotorMovement.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">motors</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">speed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">speeds</span> <span class="o">=</span> <span class="p">[],</span>  <span class="n">positionType</span> <span class="o">=</span> <span class="n">MovementTypes</span><span class="o">.</span><span class="n">Angle</span><span class="p">,</span> <span class="n">speedType</span> <span class="o">=</span> <span class="n">MovementTypes</span><span class="o">.</span><span class="n">Percentage</span><span class="p">):</span>
+		<span class="c1">#validation</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">motors</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">motors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Length of motors != length of positions&quot;</span><span class="p">)</span>	
+
+		<span class="c1">#Self variable setting</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">speeds</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">if</span> <span class="n">speeds</span> <span class="o">==</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">speed</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">speeds</span> <span class="o">=</span> <span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">motor</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;speed&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">motor</span> <span class="ow">in</span> <span class="n">motors</span><span class="p">]</span>
+		<span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">speeds</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">motors</span><span class="p">)</span> <span class="ow">and</span> <span class="n">speed</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Number of speeds does not match number of motors. Setting all to default value&quot;</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">speeds</span> <span class="o">=</span> <span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">motor</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;speed&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">motor</span> <span class="ow">in</span> <span class="n">motors</span><span class="p">]</span>
+		<span class="k">elif</span> <span class="n">speeds</span> <span class="o">!=</span> <span class="p">[]:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">speeds</span> <span class="o">=</span> <span class="n">speeds</span>
+		<span class="k">elif</span> <span class="n">speed</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">speedType</span> <span class="o">==</span> <span class="n">MovementTypes</span><span class="o">.</span><span class="n">Percentage</span><span class="p">:</span>
+				<span class="k">for</span> <span class="n">motor</span> <span class="ow">in</span> <span class="n">motors</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">speeds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">motor</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;speed&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">speed</span><span class="p">)</span>
+			<span class="k">elif</span> <span class="n">speedType</span> <span class="o">==</span> <span class="n">MovementTypes</span><span class="o">.</span><span class="n">Absolute</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">speeds</span> <span class="o">=</span> <span class="p">[</span><span class="n">speed</span> <span class="k">for</span> <span class="n">motor</span> <span class="ow">in</span> <span class="n">motors</span><span class="p">]</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid speed type: &quot;</span> <span class="o">+</span> <span class="n">speedType</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Motor speeds have not been set&quot;</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">motors</span> <span class="o">=</span> <span class="n">motors</span>
+		<span class="k">if</span> <span class="n">positionType</span> <span class="o">==</span> <span class="n">MovementTypes</span><span class="o">.</span><span class="n">Absolute</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">positions</span>
+		<span class="k">elif</span> <span class="n">positionType</span> <span class="o">==</span> <span class="n">MovementTypes</span><span class="o">.</span><span class="n">Angle</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="k">for</span> <span class="n">counter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">motors</span><span class="p">)):</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">motors</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span><span class="o">.</span><span class="n">angleToAbsolute</span><span class="p">(</span><span class="n">positions</span><span class="p">[</span><span class="n">counter</span><span class="p">]))</span>
+		<span class="k">elif</span> <span class="n">positionType</span> <span class="o">==</span> <span class="n">MovementTypes</span><span class="o">.</span><span class="n">Percentage</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="k">for</span> <span class="n">counter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">motors</span><span class="p">)):</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">motors</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span><span class="o">.</span><span class="n">percentageToAbsolute</span><span class="p">(</span><span class="n">positions</span><span class="p">[</span><span class="n">counter</span><span class="p">]))</span></div>
+
+<div class="viewcode-block" id="MotorMovement.execute"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.MotorMovement.execute">[docs]</a>	<span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+		<span class="n">sendString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+		<span class="k">for</span> <span class="n">counter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motors</span><span class="p">)):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">motors</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span>
+			<span class="n">sendString</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">motors</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span><span class="o">.</span><span class="n">port</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; P&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">counter</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; S&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">speeds</span><span class="p">[</span><span class="n">counter</span><span class="p">])</span>
+		<span class="n">sendString</span> <span class="o">+=</span> <span class="s2">&quot; </span><span class="se">\r</span><span class="s2">&quot;</span>
+		<span class="nb">print</span><span class="p">(</span><span class="n">sendString</span><span class="p">)</span>
+		<span class="n">port</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">sendString</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span></div></div>
+
+
+<div class="viewcode-block" id="Motor"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.Motor">[docs]</a><span class="k">class</span> <span class="nc">Motor</span><span class="p">:</span>
+<div class="viewcode-block" id="Motor.__init__"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.Motor.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">home</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="nb">min</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">home</span> <span class="o">=</span> <span class="n">home</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="Motor.angleToAbsolute"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.Motor.angleToAbsolute">[docs]</a>	<span class="k">def</span> <span class="nf">angleToAbsolute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degree</span><span class="p">):</span>
+		<span class="n">stepPerDegree</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;stepperdegree&quot;</span><span class="p">)</span>
+		<span class="n">absolute</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home</span> <span class="o">+</span> <span class="n">degree</span> <span class="o">*</span> <span class="n">stepPerDegree</span>
+		<span class="k">if</span> <span class="n">absolute</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="ow">or</span> <span class="n">absolute</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Value: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">absolute</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; is not valid for this motor. (Max: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Min: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">absolute</span></div>
+
+<div class="viewcode-block" id="Motor.percentageToAbsolute"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.Motor.percentageToAbsolute">[docs]</a>	<span class="k">def</span> <span class="nf">percentageToAbsolute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">percentage</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">percentage</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">percentage</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Value: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">percentage</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; is not a valid percentage for this motor&quot;</span><span class="p">)</span>
+		<span class="n">absolute</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home</span>
+		<span class="k">if</span> <span class="n">percentage</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">absolute</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">)</span> <span class="o">*</span> <span class="n">percentage</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">absolute</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">home</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">)</span> <span class="o">*</span> <span class="n">percentage</span>
+		<span class="k">return</span> <span class="n">absolute</span></div></div>
+
+<div class="viewcode-block" id="Limb"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.Limb">[docs]</a><span class="k">class</span> <span class="nc">Limb</span><span class="p">:</span>
+<div class="viewcode-block" id="Limb.__init__"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.Limb.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">side</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">side</span> <span class="o">=</span> <span class="n">side</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parts</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="n">Limbs</span><span class="o">.</span><span class="n">Leg</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">legPart</span> <span class="ow">in</span> <span class="n">LegParts</span><span class="p">:</span>
+				<span class="n">port</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">side</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">legPart</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;port&quot;</span><span class="p">)</span>
+				<span class="n">home</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">side</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">legPart</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;home&quot;</span><span class="p">)</span>
+				<span class="nb">min</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">side</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">legPart</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;min&quot;</span><span class="p">)</span>
+				<span class="nb">max</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">side</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">legPart</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;max&quot;</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">legPart</span><span class="p">]</span> <span class="o">=</span> <span class="n">Motor</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">Motors</span><span class="o">.</span><span class="n">HS5765</span><span class="p">,</span> <span class="n">home</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="nb">min</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">armPart</span> <span class="ow">in</span> <span class="n">ArmParts</span><span class="p">:</span>
+				<span class="n">port</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">side</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">armPart</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;port&quot;</span><span class="p">)</span>
+				<span class="n">home</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">side</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">armPart</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;home&quot;</span><span class="p">)</span>
+				<span class="nb">min</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">side</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">armPart</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;min&quot;</span><span class="p">)</span>
+				<span class="nb">max</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s1">&#39;motors&#39;</span><span class="p">,</span> <span class="n">side</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">armPart</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;max&quot;</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">armPart</span><span class="p">]</span> <span class="o">=</span> <span class="n">Motor</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">Motors</span><span class="o">.</span><span class="n">HS422</span><span class="p">,</span> <span class="n">home</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="nb">min</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="MotorStructure"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.MotorStructure">[docs]</a><span class="k">class</span> <span class="nc">MotorStructure</span><span class="p">:</span>
+<div class="viewcode-block" id="MotorStructure.__init__"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.MotorStructure.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">serial</span><span class="o">.</span><span class="n">Serial</span><span class="p">(</span><span class="s2">&quot;/dev/ttyUSB1&quot;</span><span class="p">,</span> <span class="mi">115200</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">accelerometer</span> <span class="o">=</span> <span class="n">Adafruit_LSM303</span><span class="o">.</span><span class="n">LSM303</span><span class="p">()</span>
+		<span class="c1">#Ballance Constants</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">KP</span> <span class="o">=</span> <span class="mf">0.01</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">KD</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">KI</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="c1">#accel, mag = lsm303.read()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">limbs</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">limb</span> <span class="ow">in</span> <span class="n">Limbs</span><span class="p">:</span>
+			<span class="n">newSide</span> <span class="o">=</span> <span class="p">{}</span>
+			<span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="n">Side</span><span class="p">:</span>
+				<span class="n">newSide</span><span class="p">[</span><span class="n">side</span><span class="p">]</span> <span class="o">=</span> <span class="n">Limb</span><span class="p">(</span><span class="n">limb</span><span class="p">,</span> <span class="n">side</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">limb</span><span class="p">]</span> <span class="o">=</span> <span class="n">newSide</span></div>
+
+<div class="viewcode-block" id="MotorStructure.initMotors"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.MotorStructure.initMotors">[docs]</a>	<span class="k">def</span> <span class="nf">initMotors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limb</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">position</span> <span class="o">=</span> <span class="n">Positions</span><span class="o">.</span><span class="n">Standing</span><span class="p">):</span>
+		<span class="c1">#print(em.measure())</span>
+		<span class="c1">#em.on()</span>
+		<span class="c1">#print(&quot;done&quot;)</span>
+		<span class="c1">#print(em.measure())</span>
+		<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">limb</span> <span class="o">==</span> <span class="n">Limbs</span><span class="o">.</span><span class="n">Arm</span> <span class="ow">or</span> <span class="n">limb</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+			<span class="n">motors</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Arm</span><span class="p">]:</span>
+				<span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Arm</span><span class="p">][</span><span class="n">side</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">:</span>
+					<span class="n">motors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Arm</span><span class="p">][</span><span class="n">side</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">part</span><span class="p">])</span>
+					<span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+			<span class="n">movement</span> <span class="o">=</span> <span class="n">MotorMovement</span><span class="p">(</span><span class="n">motors</span><span class="p">,</span> <span class="n">positions</span><span class="p">)</span>
+			<span class="n">movement</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">limb</span> <span class="o">==</span> <span class="n">Limbs</span><span class="o">.</span><span class="n">Leg</span> <span class="ow">or</span> <span class="n">limb</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+			<span class="n">motors</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Leg</span><span class="p">]:</span>
+				<span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Leg</span><span class="p">][</span><span class="n">side</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">:</span>
+					<span class="n">motors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Leg</span><span class="p">][</span><span class="n">side</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">part</span><span class="p">])</span>
+					<span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+			<span class="n">movement</span> <span class="o">=</span> <span class="n">MotorMovement</span><span class="p">(</span><span class="n">motors</span><span class="p">,</span> <span class="n">positions</span><span class="p">)</span>
+			<span class="n">movement</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MotorStructure.moveArms"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.MotorStructure.moveArms">[docs]</a>	<span class="k">def</span> <span class="nf">moveArms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">speed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+		<span class="n">forearmLength</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;construction&#39;</span><span class="p">,</span> <span class="n">ArmStructure</span><span class="o">.</span><span class="n">Forearm</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;length&quot;</span><span class="p">)</span>
+		<span class="n">bicepLength</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">getfloat</span><span class="p">(</span><span class="s1">&#39;construction&#39;</span><span class="p">,</span> <span class="n">ArmStructure</span><span class="o">.</span><span class="n">Bicep</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;length&quot;</span><span class="p">)</span>
+
+		<span class="n">term1</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">h</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">forearmLength</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">bicepLength</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">forearmLength</span> <span class="o">*</span> <span class="p">(</span><span class="n">h</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">w</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">)</span>
+		<span class="n">term2</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">w</span>
+		<span class="n">theta2</span> <span class="o">=</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">asin</span><span class="p">(</span><span class="n">term1</span><span class="p">))</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">atan</span><span class="p">(</span><span class="n">term2</span><span class="p">)</span>
+
+		<span class="n">term1</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">forearmLength</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta2</span><span class="p">))</span> <span class="o">/</span> <span class="n">bicepLength</span>
+		<span class="n">theta1</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">term1</span><span class="p">)</span>
+
+		<span class="n">theta1</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta1</span><span class="p">)</span>
+		<span class="n">theta2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">theta2</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">forearmLength</span><span class="p">:</span>
+			<span class="n">thetaBicep</span> <span class="o">=</span> <span class="o">-</span><span class="n">theta1</span>
+			<span class="n">thetaForearm</span> <span class="o">=</span> <span class="n">theta2</span> <span class="o">+</span> <span class="n">theta1</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;option 1&quot;</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">thetaBicep</span> <span class="o">=</span> <span class="n">theta1</span>
+			<span class="n">thetaForearm</span> <span class="o">=</span> <span class="n">theta2</span> <span class="o">-</span> <span class="n">theta1</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;option 2&quot;</span><span class="p">)</span>
+
+		<span class="n">motors</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Arm</span><span class="p">][</span><span class="n">Side</span><span class="o">.</span><span class="n">Left</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">ArmParts</span><span class="o">.</span><span class="n">Elbow</span><span class="p">]]</span>
+		<span class="n">motors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Arm</span><span class="p">][</span><span class="n">Side</span><span class="o">.</span><span class="n">Left</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">ArmParts</span><span class="o">.</span><span class="n">ShoulderFrontBack</span><span class="p">])</span>
+		<span class="n">motors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Arm</span><span class="p">][</span><span class="n">Side</span><span class="o">.</span><span class="n">Left</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">ArmParts</span><span class="o">.</span><span class="n">ShoulderLeftRight</span><span class="p">])</span>
+
+		<span class="nb">print</span><span class="p">(</span><span class="n">thetaForearm</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="n">thetaBicep</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+
+		<span class="n">armMovement</span> <span class="o">=</span> <span class="n">MotorMovement</span><span class="p">(</span><span class="n">motors</span><span class="p">,</span> <span class="p">[</span><span class="n">thetaForearm</span><span class="p">,</span> <span class="n">thetaBicep</span><span class="p">,</span> <span class="n">rotation</span><span class="p">],</span> <span class="n">speed</span><span class="o">=</span><span class="n">speed</span><span class="p">)</span>
+		<span class="n">armMovement</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MotorStructure.Balance"><a class="viewcode-back" href="../modules/Movement/Movement.html#Movement.MotorStructure.Balance">[docs]</a>	<span class="k">def</span> <span class="nf">Balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">error</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">read</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+
+		<span class="n">LeftMotor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Leg</span><span class="p">][</span><span class="n">Side</span><span class="o">.</span><span class="n">Left</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">LegParts</span><span class="o">.</span><span class="n">HipFrontBack</span><span class="p">]</span>
+		<span class="n">RightMotor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Leg</span><span class="p">][</span><span class="n">Side</span><span class="o">.</span><span class="n">Right</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">LegParts</span><span class="o">.</span><span class="n">HipFrontBack</span><span class="p">]</span>
+
+		<span class="n">LeftPosition</span> <span class="o">=</span> <span class="n">LeftMotor</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">error</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">KP</span>
+		<span class="n">RightPosition</span> <span class="o">=</span> <span class="n">RightMotor</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">error</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">KP</span>
+
+		<span class="n">LeftPosition</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">LeftPosition</span><span class="p">,</span> <span class="n">LeftMotor</span><span class="o">.</span><span class="n">max</span><span class="p">),</span> <span class="n">LeftMotor</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+		<span class="n">RightPosition</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">RightPosition</span><span class="p">,</span> <span class="n">RightMotor</span><span class="o">.</span><span class="n">max</span><span class="p">),</span> <span class="n">RightMotor</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+
+		<span class="nb">print</span><span class="p">((</span><span class="n">LeftPosition</span><span class="p">,</span> <span class="n">RightPosition</span><span class="p">))</span>
+		
+		<span class="n">motors</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Leg</span><span class="p">][</span><span class="n">Side</span><span class="o">.</span><span class="n">Left</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">LegParts</span><span class="o">.</span><span class="n">HipFrontBack</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">limbs</span><span class="p">[</span><span class="n">Limbs</span><span class="o">.</span><span class="n">Leg</span><span class="p">][</span><span class="n">Side</span><span class="o">.</span><span class="n">Right</span><span class="p">]</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="n">LegParts</span><span class="o">.</span><span class="n">HipFrontBack</span><span class="p">]]</span>
+		<span class="n">positions</span> <span class="o">=</span> <span class="p">[</span><span class="n">LeftPosition</span><span class="p">,</span> <span class="n">RightPosition</span><span class="p">]</span>
+		<span class="n">movement</span> <span class="o">=</span> <span class="n">MotorMovement</span><span class="p">(</span><span class="n">motors</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">positionType</span> <span class="o">=</span> <span class="n">MovementTypes</span><span class="o">.</span><span class="n">Absolute</span><span class="p">)</span>
+		<span class="n">movement</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+	<span class="n">test</span> <span class="o">=</span> <span class="n">MotorStructure</span><span class="p">()</span>
+	<span class="n">test</span><span class="o">.</span><span class="n">initMotors</span><span class="p">()</span>
+	<span class="c1">#while True:</span>
+	<span class="c1">#	test.Balance()</span>
+	<span class="c1">#	print(em.measure())</span>
+	
+	<span class="c1">#while False:</span>
+	<span class="c1">#	test.moveArms(22,4,0,2)</span>
+	<span class="c1">#	time.sleep(1)</span>
+	<span class="c1">#	test.moveArms(13,4,0,2)</span>
+	<span class="c1">#	time.sleep(3)</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018, Louis Irwin.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

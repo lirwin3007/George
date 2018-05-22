@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Enumerations &#8212; George 3.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="../_static/Icon 32x32.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html"><span><img src="../_static/Icon 89x24.png"></span>
+          George</a>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../build/index.html">Title</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/index.html">Modules</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for Enumerations</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
+
+<div class="viewcode-block" id="Motors"><a class="viewcode-back" href="../modules/Enumerations.html#Enumerations.Motors">[docs]</a><span class="k">class</span> <span class="nc">Motors</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Motor types, defined by serial number&quot;&quot;&quot;</span>
+	<span class="c1">#:Smaller servo motor</span>
+	<span class="n">HS422</span> <span class="o">=</span> <span class="s1">&#39;HS422&#39;</span>
+	<span class="c1">#:Larger servo motor</span>
+	<span class="n">HS5765</span> <span class="o">=</span> <span class="s1">&#39;HS5765&#39;</span></div>
+
+<div class="viewcode-block" id="Side"><a class="viewcode-back" href="../modules/Enumerations.html#Enumerations.Side">[docs]</a><span class="k">class</span> <span class="nc">Side</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Sides of the body&quot;&quot;&quot;</span>
+	<span class="n">Left</span> <span class="o">=</span> <span class="s1">&#39;L&#39;</span>
+	<span class="n">Right</span> <span class="o">=</span> <span class="s1">&#39;R&#39;</span></div>
+
+<div class="viewcode-block" id="Limbs"><a class="viewcode-back" href="../modules/Enumerations.html#Enumerations.Limbs">[docs]</a><span class="k">class</span> <span class="nc">Limbs</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Limb types&quot;&quot;&quot;</span>
+	<span class="n">Arm</span> <span class="o">=</span> <span class="s1">&#39;A&#39;</span>
+	<span class="n">Leg</span> <span class="o">=</span> <span class="s1">&#39;L&#39;</span></div>
+
+<div class="viewcode-block" id="ArmParts"><a class="viewcode-back" href="../modules/Enumerations.html#Enumerations.ArmParts">[docs]</a><span class="k">class</span> <span class="nc">ArmParts</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Joints of the arm&quot;&quot;&quot;</span>
+	<span class="c1">#:Arm motor moving the shoulder fornt and back</span>
+	<span class="n">ShoulderFrontBack</span> <span class="o">=</span> <span class="s1">&#39;SFB&#39;</span>
+	<span class="c1">#:Motor moving the shoulder left and right</span>
+	<span class="n">ShoulderLeftRight</span> <span class="o">=</span> <span class="s1">&#39;SLR&#39;</span>
+	<span class="c1">#:Elbow joint</span>
+	<span class="n">Elbow</span> <span class="o">=</span> <span class="s1">&#39;E&#39;</span>
+	<span class="c1">#Wrist joint</span>
+	<span class="n">Wrist</span> <span class="o">=</span> <span class="s1">&#39;W&#39;</span>
+	<span class="c1">#:Gripper motor</span>
+	<span class="n">Gripper</span> <span class="o">=</span> <span class="s1">&#39;G&#39;</span></div>
+
+<div class="viewcode-block" id="LegParts"><a class="viewcode-back" href="../modules/Enumerations.html#Enumerations.LegParts">[docs]</a><span class="k">class</span> <span class="nc">LegParts</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Joints of the legs&quot;&quot;&quot;</span>
+	<span class="n">HipFrontBack</span> <span class="o">=</span> <span class="s1">&#39;HFB&#39;</span>
+	<span class="n">HipLeftRight</span> <span class="o">=</span> <span class="s1">&#39;HLR&#39;</span>
+	<span class="n">Knee</span> <span class="o">=</span> <span class="s1">&#39;K&#39;</span>
+	<span class="n">Foot</span> <span class="o">=</span> <span class="s1">&#39;F&#39;</span></div>
+	
+<div class="viewcode-block" id="MovementTypes"><a class="viewcode-back" href="../modules/Enumerations.html#Enumerations.MovementTypes">[docs]</a><span class="k">class</span> <span class="nc">MovementTypes</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Types of position&quot;&quot;&quot;</span>
+	<span class="c1">#:Lowest level of control. Provided number directly controls the position of the motor</span>
+	<span class="n">Absolute</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="c1">#:Provided number represents an angle beween 0 and 360 degrees that the motor will be moved to</span>
+	<span class="n">Angle</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="c1">#:Number will be be a decimal between 0 and 1 that represents how far the motor must be moved between the minimum and maximum position</span>
+	<span class="n">Percentage</span> <span class="o">=</span> <span class="mi">2</span></div>
+
+<div class="viewcode-block" id="ArmStructure"><a class="viewcode-back" href="../modules/Enumerations.html#Enumerations.ArmStructure">[docs]</a><span class="k">class</span> <span class="nc">ArmStructure</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Parts of the structure of the arm&quot;&quot;&quot;</span>
+	<span class="n">Forearm</span> <span class="o">=</span> <span class="s1">&#39;forearm&#39;</span>
+	<span class="n">Bicep</span> <span class="o">=</span> <span class="s1">&#39;bicep&#39;</span>
+	<span class="n">Hand</span> <span class="o">=</span> <span class="s1">&#39;hand&#39;</span></div>
+
+<div class="viewcode-block" id="LegStructure"><a class="viewcode-back" href="../modules/Enumerations.html#Enumerations.LegStructure">[docs]</a><span class="k">class</span> <span class="nc">LegStructure</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Parts of the structure of the les&quot;&quot;&quot;</span>
+	<span class="n">Thigh</span> <span class="o">=</span> <span class="s1">&#39;thigh&#39;</span>
+	<span class="n">Shin</span> <span class="o">=</span> <span class="s1">&#39;shin&#39;</span>
+	<span class="n">Foot</span> <span class="o">=</span> <span class="s1">&#39;foot&#39;</span></div>
+
+<div class="viewcode-block" id="Positions"><a class="viewcode-back" href="../modules/Enumerations.html#Enumerations.Positions">[docs]</a><span class="k">class</span> <span class="nc">Positions</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Poses that can be used&quot;&quot;&quot;</span>
+	<span class="n">Sitting</span> <span class="o">=</span> <span class="s1">&#39;sitting&#39;</span>
+	<span class="n">Standing</span> <span class="o">=</span> <span class="s1">&#39;standing&#39;</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018, Louis Irwin.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
