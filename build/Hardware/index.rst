@@ -13,6 +13,7 @@ Overview
    legs
    leg-body-interface
    assembly
+   electronics
    
 A complete list of the parts required to build George is shown below along with purchasing links:
 
