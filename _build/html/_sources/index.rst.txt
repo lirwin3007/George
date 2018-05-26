@@ -8,8 +8,3 @@ George is a bipedal robot built around the raspberry pi. This site documents the
    :caption: Contents:
 
    build/index
-
-Building George
----------------
-
-View the build page to see how to build George: :ref:'build/index'
