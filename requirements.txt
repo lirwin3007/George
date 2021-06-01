@@ -43,5 +43,5 @@ sphinxcontrib-websupport==1.0.1
 spidev==3.2
 tornado==5.0.2
 typing==3.6.4
-urllib3==1.22
+urllib3==1.26.5
 watchdog==0.8.3
